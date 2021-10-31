@@ -1,0 +1,75 @@
+---
+  import BlogHeadLayout from './BlogHeadLayout.astro';
+  import BaseHeadLayout from './BaseHeadLayout.astro';
+  import PageLayout from './PageLayout.astro';
+  import './prism-nord.css';
+  const { content } = Astro.props;
+---
+
+<BaseHeadLayout title={content.title}>
+  <BlogHeadLayout
+    title={content.title} 
+    description={content.description}
+    permalink={content.permalink}
+  />
+</BaseHeadLayout>
+
+<PageLayout>
+  <article class="component-post flow">
+  <section class="post-header flow">
+      <h2 class="post-title">{content.title}</h2>
+      <time>
+        {
+          new Date(content.date)
+            .toLocaleDateString(
+              "en-US",
+              {
+                weekday: 'long', 
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+                }
+            )
+          }
+      </time>
+      <ul class="tags-list">
+        {content.tags.map(
+          (tag) => <li class="tag-item">
+            <a href={"/tag/" + tag} class="post-tag">{tag}</a>
+          </li>)}
+      </ul>
+  </section>
+  <div class="content-sidebar">
+    <section class="post-content flow">
+      <slot name="content"/>
+    </section>
+  <aside class="post-sidebar">
+    <slot name="sidebar"/>
+  </aside>
+</div>
+</article>
+</PageLayout>
+
+<style>
+.content-sidebar {
+  display: flex;
+  justify-content: stretch;
+  gap: var(--size-900);
+  min-width: 100%;
+}
+
+.post-content {
+  flex: 2;
+}
+
+.post-sidebar {
+  flex: 1;
+}
+
+@media (max-width: 1024px) {
+  .content-sidebar {
+    flex-direction: column;
+    max-width: 90%;
+  }
+}
+</style>

@@ -1,0 +1,59 @@
+---
+const post = Astro.props.post;
+const link = post.root ? `/${post.root}/${slugify(post.title)}` : `/posts/${slugify(post.title)}`;
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').split(' ').join('-');
+}
+---
+
+  <article class="post-preview">
+      <div class="post-preview-header">
+      <h2>
+        <a href={link} class="post-item-link">
+          {post.title}
+        </a>
+      </h2>
+        <time>{
+        new Date(post.date)
+          .toLocaleDateString(
+            "en-US", 
+            {
+              weekday: 'long', 
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+              }
+          )
+        }</time>
+        <ul class="tags-list">
+          {post.tags.map((tag) => <li class="tag=item"><a class="post-tag" href={"/tag/" + tag}>{tag}</a></li>)}
+        </ul>
+      </div>
+    <div class="post-preview-body">
+      <p>{post.description}</p>
+    </div>
+  </article>
+
+<style>
+  .post-preview > * + *{
+    margin-top: var(--size-400);
+  }
+
+  .post-preview-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  a.post-item-link {
+    text-decoration: none;
+    text-underline-offset: 0.25em;
+    transition: all 0.3s ease-in-out;
+  }
+
+  a.post-item-link:hover {
+    text-decoration: underline;
+  }
+
+</style>
