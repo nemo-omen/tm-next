@@ -9,9 +9,13 @@
 
   const linkBase = 'https://trainingmontage.dev/';
   const linkExt = content.root ? content.root : 'posts/';
-  const permalink = linkBase + linkExt + slugify(content.title);
+  const permalink = linkBase + linkExt + slugify(content?.title);
   function slugify(str) {
-    return str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').split(' ').join('-');
+    let slug = '';
+    if(str) {
+      slug = str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').split(' ').join('-') || linkBase;
+    }
+    return slug;
   }
 ---
 
@@ -45,10 +49,10 @@
                     }
                 </time>
                 <ul class="tags-list">
-                  {content.tags.map(
+                  {content ? content.tags.map(
                     (tag) => <li class="tag-item">
                       <a href={"/tag/" + tag} class="post-tag">{tag}</a>
-                    </li>)}
+                    </li>) : ''}
                 </ul>
             </section>
           <section class="post-content flow">

@@ -1,9 +1,13 @@
 ---
 const post = Astro.props.post;
-const link = post.root ? `/${post.root}/${slugify(post.title)}` : `/posts/${slugify(post.title)}`;
+const link = post.root ? `/${post.root}/${slugify(post.title)}` : `/posts/${slugify(post?.title)}`;
 
 function slugify(str) {
-  return str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').split(' ').join('-');
+  let slug = '';
+  if(str) {
+    slug = str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '').split(' ').join('-') || '';
+  }
+  return slug;
 }
 ---
 
@@ -27,7 +31,7 @@ function slugify(str) {
           )
         }</time>
         <ul class="tags-list">
-          {post.tags.map((tag) => <li class="tag=item"><a class="post-tag" href={"/tag/" + tag}>{tag}</a></li>)}
+          {post ? post.tags.map((tag) => <li class="tag=item"><a class="post-tag" href={"/tag/" + tag}>{tag}</a></li>) : ''}
         </ul>
       </div>
     <div class="post-preview-body">

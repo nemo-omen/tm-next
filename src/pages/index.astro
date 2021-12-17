@@ -34,7 +34,7 @@ import BlogPreview from '../components/BlogPreview.astro';
 
 <MainLayout title="trainingmontage — writing and web dev">
     <section class="post-list flow">
-        {allPosts.map((post) => <BlogPreview post={post} />)}
+        {allPosts ? allPosts.map((post) => <BlogPreview post={post} />) : ''}
     </section>
 </MainLayout>
 

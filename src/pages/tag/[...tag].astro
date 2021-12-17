@@ -11,10 +11,10 @@
       }
     }
 
-    return [...tags]?.map((tag) => ({
+    return tags ? [...tags].map((tag) => ({
       params: { tag },
       props: { posts: posts.filter((post) => post?.tags.includes(tag)) },
-    }));
+    })): [];
 
   }
   
@@ -25,6 +25,6 @@
 ---
 <MainLayout title={"posts tagged " + tag}>
   <section class="post-list flow">
-    {posts.map((post) => <BlogPreview post={post} />)}
+    {posts ? posts.map((post) => <BlogPreview post={post} />) : ''}
   </section>
 </MainLayout>

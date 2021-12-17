@@ -33,10 +33,10 @@
           }
       </time>
       <ul class="tags-list">
-        {content.tags.map(
+        {content ? content.tags.map(
           (tag) => <li class="tag-item">
             <a href={"/tag/" + tag} class="post-tag">{tag}</a>
-          </li>)}
+          </li>) : ''}
       </ul>
   </section>
   <div class="content-sidebar">

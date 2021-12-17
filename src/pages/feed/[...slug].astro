@@ -1,10 +1,4 @@
 ---
-  
-  import MainLayout from '../../layouts/MainLayout.astro';
-  import BlogPreview from '../../components/BlogPreview.astro';
-  const { slug } = Astro.request.params;
-  const { posts } = Astro.props;
-
   export async function getStaticPaths() {
     const posts = Astro.fetchContent('../**/*.md');
     posts.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
@@ -15,15 +9,20 @@
       slugs.push(post.slug);
     }
 
-    return [...slugs].map((slug) => ({
+    return slugs ? [...slugs].map((slug) => ({
       params: { slug },
       props: { posts: posts },
-    }));
+    })) : [];
 
   }
+
+  import MainLayout from '../../layouts/MainLayout.astro';
+  import BlogPreview from '../../components/BlogPreview.astro';
+  const { slug } = Astro.request.params;
+  const { posts } = Astro.props;
 ---
 <MainLayout title="trainingmontage — all posts">
   <section class="post-list flow">
-        {posts.map((post) => <BlogPreview post={post} />)}
+        {posts ? posts.map((post) => <BlogPreview post={post} />) : ''}
     </section>
 </MainLayout>
